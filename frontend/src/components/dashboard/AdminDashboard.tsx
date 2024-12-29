@@ -61,12 +61,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ user }) => {
                             <TableBody>
                                 {users.filter(otherUser => otherUser.ID !== user.ID).map((user) => (
                                     <TableRow key={user.ID}>
-                                        <TableCell sx={{ verticalAlign: 'top', width: '150px' }}>
+                                        <TableCell sx={{ verticalAlign: 'top', }}>
                                             <Typography variant="body1">
                                                 {`${user.FirstName} ${user.LastName}`}
                                             </Typography>
                                         </TableCell>
-                                        <TableCell sx={{ verticalAlign: 'top', width: '150px' }}>
+                                        <TableCell sx={{ verticalAlign: 'top', }}>
                                             <Typography variant="body1">
                                                 {user.Email}
                                             </Typography>

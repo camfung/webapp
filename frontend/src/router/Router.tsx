@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage } from '../pages/home/HomePage';
 import { LoginPage } from '../pages/login/LoginPage';
-import { BrowsePage } from '../pages/browse/BrowsePage';
-import { WatchPage } from '../pages/watch/WatchPage';
 import { PrivateRoute } from '../components/private-route/PrivateRoute';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { UserProvider } from '../contexts/UserContext';
@@ -36,22 +34,6 @@ export const Router = () => {
                         element={
                             <PrivateRoute>
                                 <DashboardPage />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path={routes.browse}
-                        element={
-                            <PrivateRoute>
-                                <BrowsePage />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path={routes.watch}
-                        element={
-                            <PrivateRoute>
-                                <WatchPage />
                             </PrivateRoute>
                         }
                     />

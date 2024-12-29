@@ -43,6 +43,7 @@ func InitRouter() *gin.Engine {
 		usageTrackingRouterGroup := privateRouterGroup.Group("")
 		usageTrackingRouterGroup.Use(middlewares.UsageTrackingMiddleware(database.GetInstance()))
 		{
+			v1.SetTTSRoutes(usageTrackingRouterGroup)
 		}
 	}
 

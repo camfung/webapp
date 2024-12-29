@@ -1,48 +1,52 @@
 import { useEffect, useState } from "react";
-import { getWatchList } from "../../api/services/currentlyWatching.service";
-import MediaList from "../../components/media-list/medialist";
 import { useUser } from "../../hooks/useUser";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
+
+import { uploadPDfToText } from "../../api/services/TTS.service";
+import { useForm } from "react-hook-form";
 
 export const HomePage = () => {
     const user = useUser()
-    const [currentlyWatchings, setCurrentlyWatchings] = useState<any[]>([])
-    useEffect(() => {
-        // const test = async () => {
-        //     const res = await searchMulti("How to train your dragon")
-        //     
-        //     const himym = res[0]
-        //     
-        //     const createdMedia = await createMedia(himym.Media!)
-        // }
-        //
-        // if (first == 0) {
-        //     setFirst(1)
-        //     test()
-        // }
+    const { register, handleSubmit, reset } = useForm();
+    const [loading, setLoading] = useState<boolean | null>(null)
+    const [error, setError] = useState<string | null>(null)
 
-        const getMediaList = async () => {
-            const currentlyWatchingList = await getWatchList()
-            setCurrentlyWatchings(currentlyWatchingList)
+    const onSubmit = async (data: any) => {
+        if (!data.file) {
+            setError("Please select a file before submitting")
+            console.error("no file included")
+            return;
         }
-        getMediaList()
 
-    }, [])
+        setLoading(true);
+        setError(null)
+
+        try {
+            const res = await uploadPDfToText({ file: data.file[0] })
+            console.log("uploaded successfully", res);
+            reset();
+        } catch (error) {
+            console.error("error uplaoding");
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <>
             {user ? (
                 <>
                     <Box padding={2}>
-
-                        <Typography>Continue Watching</Typography>
-                        <MediaList currentlyWatchings={currentlyWatchings}></MediaList>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <input type="file" accept="application/pdf" {...register("file")} />
+                            <Button type="submit">
+                                {loading ? <CircularProgress size={24} /> : "upload PDF"}
+                            </Button>
+                        </form>
                     </Box>
                 </>
             ) : (
                 <>
-                    <div>Welcome to stream buster</div>
-                    <div>login or sign up</div>
                 </>
             )}
         </>

@@ -20,7 +20,6 @@ interface UserDashboardProps {
 
 export const UserDashboard: React.FC<UserDashboardProps> = ({ user }) => {
     const { FirstName } = user;
-    // const maxRequestCount = UserRoles[0]?.Role?.MaxRequestCount || 20;
 
     return (
         <Card sx={styles.card}>
